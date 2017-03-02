@@ -399,5 +399,14 @@ Please note: `kubeadm` is a work in progress and these limitations will be addre
 1. If you are using VirtualBox (directly or via Vagrant), you will need to ensure that `hostname -i` returns a routable IP address (i.e. one on the second network interface, not the first one).
    By default, it doesn't do this and kubelet ends-up using first non-loopback network interface, which is usually NATed.
    Workaround: Modify `/etc/hosts`, take a look at this [`Vagrantfile`][ubuntu-vagrantfile] for how this can be achieved.
-
+   Briefly, this can be done by setting the hostname to an alias of that interface / IP address listed in the /etc/hosts. E.g.
+   ```
+   sudo hostnamectl set-hostname mm.lan
+   ```
+   and the corresponding /etc/hosts entry would be:
+   ```
+   192.168.100.100 minion-master.lan mm mm.lan
+   ```
+   After such a configuration 'hostname -i' should report only the wanted 192.168.100.100 of the second interface. 
+  
 [ubuntu-vagrantfile]: https://github.com/errordeveloper/k8s-playground/blob/22dd39dfc06111235620e6c4404a96ae146f26fd/Vagrantfile#L11),
